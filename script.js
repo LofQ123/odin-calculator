@@ -43,6 +43,7 @@ btnAdd.addEventListener("click", () => enterOperator("+"))
 btnSubtract.addEventListener("click", () => enterOperator("-"))
 btnDivide.addEventListener("click", () => enterOperator("/"))
 btnMultiply.addEventListener("click", () => enterOperator("*"))
+btnEql.addEventListener("click", () => getResult())
 
 
 
@@ -60,14 +61,30 @@ let operator = "";
 
 let currentOperand = 1;
 
-let result;
+let result = 0;
+let previousResult = 0;
+
+let allowContinue = false;
 
 const allClear = () => {
     firstOperand = [];
     secondOperand = [];
     operator = "";
-    updateCurrentOperation();
-    currentDisplay.innerText = "0"
+    currentOperation = "";
+    previousOperation = "";
+    currentDisplay.innerText = "0";
+    previousDisplay.innerText = "";
+    result = 0;
+    previousResult = 0;
+};
+
+const resetOperation = () => {
+    currentOperation = "";
+    firstOperand = [];
+    secondOperand = [];
+    currentOperand = 1;
+    operator = ""
+    result = 0;
 }
 
 const del = () => {
@@ -93,22 +110,25 @@ const del = () => {
             switchOperands();
         }           
     }
-}
-
+};
 
 const switchOperands = () => {
     if (currentOperand === 1) {
-        currentOperand = 2
+        currentOperand = 2;
     } else if (currentOperand === 2) {
-        currentOperand = 1
+        currentOperand = 1;
     }
-}
+};
 
-const updateCurrentOperation = () => currentOperation = `${firstOperand.join("")}${operator}${secondOperand.join("")}`
+const updateCurrentOperation = () => currentOperation = `${firstOperand.join("")}${operator}${secondOperand.join("")}`;
+
+const updatePreviousOperation = () => previousOperation = `${currentOperation}=${result}`;
 
 const updateCurrentDisplay = () => currentDisplay.innerText = currentOperation;
 
 const updatePreviousDisplay = () => previousDisplay.innerText = previousOperation;
+
+const displayResult = () => currentDisplay.innerText = `=${result}`;
 
 const enterNumber = (n) => {
     if (n === 0) {
@@ -116,20 +136,24 @@ const enterNumber = (n) => {
             firstOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
+            allowContinue = false;
         } else if (currentOperand === 2 && secondOperand[0] !== 0 && firstOperand.length !== 0) {
             secondOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
+            allowContinue = false;
         }
     } else {
         if (currentOperand === 1) {
             firstOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
+            allowContinue = false;
         } else if (currentOperand === 2) {
             secondOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
+            allowContinue = false;
         }
     }
     
@@ -164,10 +188,19 @@ const enterDot = () => {
 
 const enterOperator = (op) => {
     if (currentOperand === 1) {
-        operator = op;
-        updateCurrentOperation()
-        updateCurrentDisplay()
-        switchOperands()
+        if (firstOperand.length !== 0) {
+            operator = op;
+            updateCurrentOperation()
+            updateCurrentDisplay()
+            switchOperands()
+        } else if (allowContinue) {
+            continueFromResult();
+            operator = op;
+            updateCurrentOperation()
+            updateCurrentDisplay()
+            switchOperands()
+            allowContinue = false;
+        }    
     } else if (currentOperand === 2) {
         if (secondOperand.length === 0) {
             operator = op;
@@ -182,6 +215,38 @@ const enterOperator = (op) => {
     }
 }
 
+const getResult = () => {
+    if (firstOperand.length > 0 && secondOperand.length > 0) {
+        let a = Number(firstOperand.join(""));
+        let b = Number(secondOperand.join(""));
+    
+        if (operator === "+") {
+            result = a + b;
+        } else if (operator === "-") {
+            result = a - b;
+        } else if (operator === "/") {
+            if (b === 0) {
+                result = "ERROR";
+            } else {
+                result = a / b;
+            }
+        } else if (operator === "*" ) {
+            result = (a * b);
+        }
+        
+        previousResult = result;
+        displayResult();
+        updatePreviousOperation();
+        updatePreviousDisplay();
+        resetOperation();
+        allowContinue = true;
+    }   
+}
+
+const continueFromResult = () => {
+    let str = previousResult.toString();
+    firstOperand = str.split('').map(char => +char);
+}
 
 
 
