@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+}
+
+.body {
+    border: 1px solid red;
+    width: 430px;
+    height: 600px;
+    margin: auto;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 100;
+    font-size: 20px;
+}
+
+.display {
+    border: 1px solid blue;
+    height: 120px;
+    width: 375px;
+    margin: auto;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.displayField {
+    border: 1px solid red;
+    width: 360px;
+    height: 60px;
+    margin: auto;
+    text-align: right;
+    font-size: 40px;
+    vertical-align: middle;
+    line-height: 60px;
+}
+
+.buttons {
+    height: 380px;
+    width: 375px;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.btnBlock1, .btnBlock2, .btnBlock3 {
+    height: 68px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBlock1-1, .btnBlock2-1, .btnBlock3-1 {
+    width: 279px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBlock1-2, .btnBlock2-2, .btnBlock3-2 {
+    width: 87px;
+}
+
+.btnBlock4 {
+    height: 146px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBlock4-1 {
+    height: 146px;
+    width: 279px;
+}
+
+.btnBlock4-2 {
+    height: 146px;
+    width: 87px;
+}
+
+.btnBlock4-1a {
+    height: 68px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btnBlock4-1b {
+    height: 68px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button {
+    height: 68px;
+    width: 87px;
+    border: 1px solid red;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 68px;
+    font-size: 40px
+}
+
+.buttonBig {
+    height: 146px;
+    width: 87px;
+    border: 1px solid red;
+    border-radius: 10px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 146px;
+    font-size: 40px
+}
