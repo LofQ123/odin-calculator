@@ -1,5 +1,4 @@
 //Initiate buttons
-let buttons = document.querySelectorAll(".button");
 let btnEql = document.getElementById("eql");
 let btnSqrt = document.getElementById("sqrt");
 let btnDot = document.getElementById("dot");
@@ -146,11 +145,20 @@ const updateCurrentOperation = () => currentOperation = `${firstOperand.join("")
 
 const updatePreviousOperation = () => previousOperation = `${currentOperation}=${result}`;
 
-const updateCurrentDisplay = () => currentDisplay.innerText = currentOperation;
+const updateCurrentDisplay = () => {
+    currentDisplay.innerText = currentOperation;
+    currentDisplay.innerText.length > 23 ? currentDisplay.style.fontSize = "15px" : currentDisplay.style.fontSize = "27px";
+}
 
 const updatePreviousDisplay = () => {
     previousDisplay.innerText = previousOperation;
-    previousDisplay.innerText.length > 25 ? previousDisplay.style.fontSize = "15px" : previousDisplay.style.fontSize = "27px";
+    if (previousDisplay.innerText.length <= 23) {
+        previousDisplay.style.fontSize = "27px";
+    } else if (previousDisplay.innerText.length > 23 && previousDisplay.innerText.length <= 40) {
+        previousDisplay.style.fontSize = "15px";
+    } else if (previousDisplay.innerText.length > 40) {
+        previousDisplay.innerText = "ERROR: CAN'T FIT"
+    }
 }
 
 const displayResult = () => {
@@ -160,25 +168,25 @@ const displayResult = () => {
 }
 
 const enterNumber = (n) => {
-    if (n === 0) {
-        if (currentOperand === 1 && firstOperand[0] !== 0 && firstOperand.length !== 0) {
+    if (n === 0) { // To prevent entering numbers starting with 0 (like 00005)
+        if (currentOperand === 1 && firstOperand[0] !== 0 && firstOperand.length !== 0 && firstOperand.length < 20) {
             firstOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
             allowContinue = false;
-        } else if (currentOperand === 2 && secondOperand[0] !== 0 && firstOperand.length !== 0) {
+        } else if (currentOperand === 2 && secondOperand[0] !== 0 && secondOperand.length !== 0 && secondOperand.length < 20) {
             secondOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
             allowContinue = false;
         }
     } else {
-        if (currentOperand === 1) {
+        if (currentOperand === 1 && firstOperand.length < 20) {
             firstOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
             allowContinue = false;
-        } else if (currentOperand === 2) {
+        } else if (currentOperand === 2 && secondOperand.length < 20) {
             secondOperand.push(n)
             updateCurrentOperation()
             updateCurrentDisplay()
@@ -330,19 +338,218 @@ const continueFromResult = () => {
         allowDotSecondOperand = true;
     }  
 }
+//---------------------------------------------------------------------
+
 
 //Adding dynamic visuals to UI
-buttons.forEach((button) => {
+let buttonsReg = document.querySelectorAll(".reg");
+let buttonsAlt = document.querySelectorAll(".alt"); 
+let buttonBig = document.querySelector(".big");
+
+buttonsReg.forEach((button) => {
     button.addEventListener("mousemove", () => {
-       button.style.border = "1px solid black"
+       button.style.border = "3px solid #8d8f1f"
     })
     button.addEventListener("mouseout", () => {
-       button.style.border = "1px solid red"
+       button.style.border = "3px solid black"
     })
     button.addEventListener("mousedown", () => {
-        button.style.backgroundColor ="blue"
+        button.style.border = "3px solid white";
+        button.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
     })
     button.addEventListener("mouseup", () => {
-        button.style.backgroundColor =""
+        button.style.border = "3px solid #8d8f1f";
+        button.style["-webkit-text-stroke"] = "2px black";
     })
+})
+
+buttonsAlt.forEach((button) => {
+    button.addEventListener("mousemove", () => {
+        button.style.border = "3px solid #8d8f1f"
+     })
+     button.addEventListener("mouseout", () => {
+        button.style.border = "3px solid black"
+     })
+
+     button.addEventListener("mousedown", () => {
+         button.style.border = "3px solid white";
+         button.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+         button.style.color = "white";
+     })
+     button.addEventListener("mouseup", () => {
+         button.style.border = "3px solid #8d8f1f";
+         button.style.color = "#8d8f1f";
+     })
+})
+
+buttonBig.addEventListener("mousemove", () => {
+    buttonBig.style.border = "3px solid #8d8f1f"
+ })
+
+buttonBig.addEventListener("mouseout", () => {
+    buttonBig.style.border = "3px solid black"
+})
+
+buttonBig.addEventListener("mousedown", () => {
+    buttonBig.style.border = "3px solid white";
+    buttonBig.style.color = "white";
+})
+
+buttonBig.addEventListener("mouseup", () => {
+    buttonBig.style.border = "3px solid #8d8f1f";
+    buttonBig.style.color = "black";
+})
+//---------------------------------------------------------------------
+
+//Add keyboard support
+document.body.addEventListener("keydown", (ev) => {
+    if (ev.key === "0") {
+        enterNumber(0);
+        btn0.style.border = "3px solid white";
+        btn0.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "1") {
+        enterNumber(1);
+        btn1.style.border = "3px solid white";
+        btn1.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "2") {
+        enterNumber(2);
+        btn2.style.border = "3px solid white";
+        btn2.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "3") {
+        enterNumber(3);
+        btn3.style.border = "3px solid white";
+        btn3.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "4") {
+        enterNumber(4);
+        btn4.style.border = "3px solid white";
+        btn4.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "5") {
+        enterNumber(5);
+        btn5.style.border = "3px solid white";
+        btn5.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "6") {
+        enterNumber(6);
+        btn6.style.border = "3px solid white";
+        btn6.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "7") {
+        enterNumber(7);
+        btn7.style.border = "3px solid white";
+        btn7.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "8") {
+        enterNumber(8);
+        btn8.style.border = "3px solid white";
+        btn8.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "9") {
+        enterNumber(9);
+        btn9.style.border = "3px solid white";
+        btn9.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "Delete") {
+        allClear();
+        btnAC.style.border = "3px solid white";
+        btnAC.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+        btnAC.style.color = "white";
+    } else if (ev.key === "Backspace") {
+        del();
+        btnDel.style.border = "3px solid white";
+        btnDel.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+        btnDel.style.color = "white";
+    } else if (ev.key === ".") {
+        enterDot();
+        btnDot.style.border = "3px solid white";
+        btnDot.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+    } else if (ev.key === "+") {
+        enterOperator("+");
+        btnAdd.style.border = "3px solid white";
+        btnAdd.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+        btnAdd.style.color = "white";
+    } else if (ev.key === "-") {
+        enterOperator("-");
+        btnSubtract.style.border = "3px solid white";
+        btnSubtract.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+        btnSubtract.style.color = "white";
+    } else if (ev.key === "/") {
+        enterOperator("/");
+        btnDivide.style.border = "3px solid white";
+        btnDivide.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+        btnDivide.style.color = "white";
+    } else if (ev.key === "*") {
+        enterOperator("*");
+        btnMultiply.style.border = "3px solid white";
+        btnMultiply.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+        btnMultiply.style.color = "white";
+    } else if (ev.key === "Enter") {
+        operate();
+        buttonBig.style.border = "3px solid white";
+        buttonBig.style.color = "white";
+    } else if (ev.key === "^") {
+        enterSqrt();
+        btnSqrt.style.border = "3px solid white";
+        btnSqrt.style["-webkit-text-stroke"] = "0px rgba(255, 255, 255, 0.747";
+        btnSqrt.style.color = "white";
+    }
+})
+
+document.body.addEventListener("keyup", (ev) => {
+    if (ev.key === "0") {
+        btn0.style.border = "3px solid black";
+        btn0.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "1") {
+        btn1.style.border = "3px solid black";
+        btn1.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "2") {
+        btn2.style.border = "3px solid black";
+        btn2.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "3") {
+        btn3.style.border = "3px solid black";
+        btn3.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "4") {
+        btn4.style.border = "3px solid black";
+        btn4.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "5") {
+        btn5.style.border = "3px solid black";
+        btn5.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "6") {
+        btn6.style.border = "3px solid black";
+        btn6.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "7") {
+        btn7.style.border = "3px solid black";
+        btn7.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "8") {
+        btn8.style.border = "3px solid black";
+        btn8.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "9") {
+        btn9.style.border = "3px solid black";
+        btn9.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "Delete") {
+        btnAC.style.border = "3px solid black";
+        btnAC.style.color = "#8d8f1f";
+    } else if (ev.key === "Backspace") {
+        btnDel.style.border = "3px solid black";
+        btnDel.style.color = "#8d8f1f";
+    } else if (ev.key === ".") {
+        btnDot.style.border = "3px solid black";
+        btnDot.style["-webkit-text-stroke"] = "2px black";
+    } else if (ev.key === "+") {
+        btnAdd.style.border = "3px solid black";
+        btnAdd.style.color = "#8d8f1f";
+    } else if (ev.key === "-") {
+        btnSubtract.style.border = "3px solid black";
+        btnSubtract.style.color = "#8d8f1f";
+    } else if (ev.key === "/") {
+        btnDivide.style.border = "3px solid black";
+        btnDivide.style.color = "#8d8f1f";
+    } else if (ev.key === "*") {
+        btnMultiply.style.border = "3px solid black";
+        btnMultiply.style.color = "#8d8f1f";
+    } else if (ev.key === "Enter") {
+        buttonBig.style.border = "3px solid black";
+        buttonBig.style.color = "black";
+    } else if (ev.key === "^") {
+        btnSqrt.style.border = "3px solid black";
+        btnSqrt.style.color = "#8d8f1f";
+    }
+
+
+
+
 })
