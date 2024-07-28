@@ -168,32 +168,18 @@ const displayResult = () => {
 }
 
 const enterNumber = (n) => {
-    if (n === 0) { // To prevent entering numbers starting with 0 (like 00005)
-        if (currentOperand === 1 && firstOperand[0] !== 0 && firstOperand.length !== 0 && firstOperand.length < 20) {
-            firstOperand.push(n)
-            updateCurrentOperation()
-            updateCurrentDisplay()
-            allowContinue = false;
-        } else if (currentOperand === 2 && secondOperand[0] !== 0 && secondOperand.length !== 0 && secondOperand.length < 20) {
-            secondOperand.push(n)
-            updateCurrentOperation()
-            updateCurrentDisplay()
-            allowContinue = false;
-        }
-    } else {
-        if (currentOperand === 1 && firstOperand.length < 20) {
-            firstOperand.push(n)
-            updateCurrentOperation()
-            updateCurrentDisplay()
-            allowContinue = false;
-        } else if (currentOperand === 2 && secondOperand.length < 20) {
-            secondOperand.push(n)
-            updateCurrentOperation()
-            updateCurrentDisplay()
-            allowContinue = false;
-        }
-    } 
-}
+    if (currentOperand === 1 && firstOperand.length < 20) {
+        firstOperand.push(n)
+        updateCurrentOperation()
+        updateCurrentDisplay()
+        allowContinue = false;
+    } else if (currentOperand === 2 && secondOperand.length < 20) {
+        secondOperand.push(n)
+        updateCurrentOperation()
+        updateCurrentDisplay()
+        allowContinue = false;
+    }
+} 
 
 const enterDot = () => {
     if (currentOperand === 1 && allowDotFirstOperand) {
@@ -548,8 +534,4 @@ document.body.addEventListener("keyup", (ev) => {
         btnSqrt.style.border = "3px solid black";
         btnSqrt.style.color = "#8d8f1f";
     }
-
-
-
-
 })
